@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch Tăng Ca Thiết Kế</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Work Sans', 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #333;
+    font-size: clamp(13px, 1.05vw, 18px);
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(8px, 1.2vh, 20px) clamp(8px, 1.5vw, 24px);
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  h1 {
+    color: #fff;
+    text-align: center;
+    font-size: clamp(1.1rem, 2vw, 2rem);
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+    margin-bottom: clamp(6px, 1vh, 14px);
+  }
+
+  .card {
+    background: #fff;
+    border-radius: clamp(10px, 1.2vw, 18px);
+    padding: clamp(10px, 1.6vh, 24px) clamp(12px, 1.8vw, 28px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  /* ===== BẢNG MÀU THEO NGƯỜI ===== */
+  .color-legend {
+    display: flex;
+    gap: clamp(5px, 0.8vw, 12px);
+    flex-wrap: wrap;
+    padding: clamp(5px, 0.9vh, 12px);
+    background: #f7f8fa;
+    border-radius: clamp(6px, 0.9vw, 12px);
+    flex-shrink: 0;
+    margin-bottom: clamp(6px, 0.9vh, 12px);
+  }
+  .person-legend {
+    display: flex; align-items: center; gap: 6px;
+    padding: clamp(3px, 0.6vh, 8px) clamp(8px, 1.1vw, 16px);
+    border-radius: 22px;
+    font-size: clamp(0.72rem, 0.95vw, 1.05rem);
+    font-weight: 600;
+    background: #fff; border: 1px solid #e0e0e0;
+  }
+  .person-legend .swatch {
+    width: clamp(11px, 1.1vw, 20px);
+    height: clamp(11px, 1.1vw, 20px);
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .type-legend {
+    display: flex;
+    gap: clamp(10px, 1.6vw, 20px);
+    flex-wrap: wrap;
+    font-size: clamp(0.72rem, 0.9vw, 1rem);
+    color: #666;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-bottom: clamp(6px, 0.9vh, 12px);
+  }
+  .type-legend span { display: flex; align-items: center; gap: 5px; }
+  .type-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: clamp(15px, 1.4vw, 24px);
+    height: clamp(15px, 1.4vw, 24px);
+    border-radius: 4px;
+    font-size: clamp(0.6rem, 0.8vw, 0.9rem);
+  }
+  .type-icon.night { background: #e8f8f5; }
+  .type-icon.sunday { background: #fdf0ec; }
+
+  .month-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    margin-bottom: clamp(6px, 0.9vh, 12px);
+  }
+  .month-nav button {
+    background: #f0f0f0; border: none;
+    padding: clamp(4px, 0.7vh, 9px) clamp(10px, 1.4vw, 20px);
+    border-radius: 8px; cursor: pointer;
+    font-size: clamp(0.8rem, 1.05vw, 1.2rem);
+    font-weight: 700; color: #2a5298;
+    transition: background 0.2s;
+    font-family: inherit;
+  }
+  .month-nav button:hover { background: #e0e0e0; }
+  .month-nav .month-title {
+    font-size: clamp(0.95rem, 1.35vw, 1.5rem);
+    font-weight: 700; color: #1e3c72;
+  }
+
+  /* ===== LỊCH: co giãn để vừa màn hình ===== */
+  .calendar {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: 1fr;
+    gap: clamp(2px, 0.4vw, 5px);
+    min-height: 0;
+  }
+  .cal-header {
+    text-align: center; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(0.7rem, 0.95vw, 1.05rem);
+    color: #666;
+    min-height: 0;
+  }
+  .cal-header.sun { color: #e17055; }
+  .cal-day {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    border-radius: clamp(5px, 0.7vw, 10px);
+    background: #f7f8fa;
+    font-size: clamp(0.8rem, 1.1vw, 1.2rem);
+    position: relative;
+    cursor: default;
+    padding: 2px;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .cal-day.empty { background: transparent; }
+  .cal-day.sunday-col { background: #fdf0ec; }
+  .cal-day .num { font-weight: 600; line-height: 1; }
+  .cal-day .tag {
+    font-size: clamp(0.42rem, 0.62vw, 0.72rem);
+    font-weight: 700;
+    margin-top: clamp(1px, 0.3vh, 4px);
+    padding: 1px clamp(3px, 0.4vw, 6px);
+    border-radius: 5px; color: #fff;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .info-box {
+    flex-shrink: 0;
+    margin-top: clamp(6px, 0.9vh, 14px);
+    padding: clamp(6px, 1vh, 16px) clamp(8px, 1.2vw, 18px);
+    background: #e8f4fd;
+    border-radius: clamp(6px, 0.9vw, 12px);
+    font-size: clamp(0.68rem, 0.85vw, 0.95rem);
+    color: #1e3c72;
+    line-height: 1.6;
+  }
+  .info-box strong { color: #d84315; }
+  .info-box .order-line { display: block; }
+
+  /* Màn hình thấp: ẩn bớt chú thích loại ca cho gọn */
+  @media (max-height: 640px) {
+    .type-legend { display: none; }
+    .color-legend { margin-bottom: 6px; }
+    .info-box { font-size: 0.62rem; }
+  }
+  @media (max-height: 480px) {
+    h1 { display: none; }
+    .color-legend { padding: 3px 6px; }
+    .person-legend { padding: 2px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📅 Lịch Tăng Ca Thiết Kế</h1>
+
+  <div class="card">
+
+    <!-- Bảng màu theo người -->
+    <div class="color-legend" id="colorLegend"></div>
+
+    <!-- Chú thích loại ca -->
+    <div class="type-legend">
+      <span><span class="type-icon night">🌙</span> Tăng ca đêm (T2–T7)</span>
+      <span><span class="type-icon sunday">☀️</span> Trực Chủ Nhật</span>
+    </div>
+
+    <div class="month-nav">
+      <button onclick="changeMonth(-1)">◀</button>
+      <div class="month-title" id="monthTitle"></div>
+      <button onclick="changeMonth(1)">▶</button>
+    </div>
+
+    <div class="calendar" id="calendar"></div>
+
+    <div class="info-box" id="infoBox"></div>
+  </div>
+</div>
+
+<script>
+  // ============ CẤU HÌNH ============
+  const CYCLE_NIGHT = 4;      // ngày làm việc (T2–T7)
+  const CYCLE_SUNDAY = 28;    // ngày (4 tuần)
+
+  // Thông tin 4 người — mỗi người 1 màu (dùng chung cho cả 2 lịch)
+  const PEOPLE = {
+    'Bình': { color: '#00b894', light: '#e8f8f5' }, // xanh ngọc
+    'Minh': { color: '#0984e3', light: '#e7f2fd' }, // xanh dương
+    'Điệp': { color: '#6c5ce7', light: '#efedfd' }, // tím
+    'Thư':  { color: '#e84393', light: '#fdeaf5' }, // hồng
+  };
+  const PERSON_LIST = ['Bình', 'Minh', 'Điệp', 'Thư'];
+
+  // ===== THỨ TỰ THAY PHIÊN =====
+  // Trực CN: Bình → Minh → Điệp → Thư
+  const SUNDAY_ORDER = ['Bình', 'Minh', 'Điệp', 'Thư'];
+
+  // Tăng ca đêm (T2–T7): Bình → Minh → Thư → Điệp
+  const NIGHT_ORDER = ['Bình', 'Minh', 'Thư', 'Điệp'];
+
+  // ===== LỊCH GỐC =====
+  // Đêm gốc: 14/11/2026 (Thứ 7) — Bình
+  // Trực CN gốc: 15/11/2026 (Chủ Nhật) — Bình
+  const BASE_NIGHT = new Date(2026, 10, 14);
+  const BASE_SUNDAY = new Date(2026, 10, 15);
+
+  let currentMonth = new Date(BASE_NIGHT.getFullYear(), BASE_NIGHT.getMonth(), 1);
+
+  function addDays(d, n) {
+    const r = new Date(d);
+    r.setDate(r.getDate() + n);
+    return r;
+  }
+  function daysBetween(a, b) {
+    return Math.round((b - a) / 86400000);
+  }
+
+  function workingDaysBetween(start, end) {
+    if (end <= start) return 0;
+    let count = 0;
+    let cur = new Date(start);
+    cur.setHours(0, 0, 0, 0);
+    const endD = new Date(end);
+    endD.setHours(0, 0, 0, 0);
+    while (cur < endD) {
+      cur = addDays(cur, 1);
+      if (cur.getDay() !== 0) count++;
+    }
+    return count;
+  }
+
+  function nightOwner(date) {
+    if (date.getDay() === 0) return null;
+    const d = new Date(date); d.setHours(0,0,0,0);
+    const b = new Date(BASE_NIGHT); b.setHours(0,0,0,0);
+    if (d < b) return null;
+    return NIGHT_ORDER[workingDaysBetween(b, d) % 4];
+  }
+
+  function sundayOwner(date) {
+    if (date.getDay() !== 0) return null;
+    const d = new Date(date); d.setHours(0,0,0,0);
+    const b = new Date(BASE_SUNDAY); b.setHours(0,0,0,0);
+    if (d < b) return null;
+    const weeks = daysBetween(b, d) / 7;
+    return SUNDAY_ORDER[Math.round(weeks) % 4];
+  }
+
+  function changeMonth(delta) {
+    currentMonth.setMonth(currentMonth.getMonth() + delta);
+    renderCalendar();
+  }
+
+  function renderColorLegend() {
+    const el = document.getElementById('colorLegend');
+    el.innerHTML = '';
+    PERSON_LIST.forEach((name) => {
+      const p = PEOPLE[name];
+      const div = document.createElement('div');
+      div.className = 'person-legend';
+      const sw = document.createElement('span');
+      sw.className = 'swatch';
+      sw.style.background = p.color;
+      const txt = document.createElement('span');
+      txt.textContent = name;
+      div.appendChild(sw);
+      div.appendChild(txt);
+      el.appendChild(div);
+    });
+  }
+
+  function renderCalendar() {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+
+    const title = currentMonth.toLocaleDateString('vi-VN', { month: 'long', year: 'numeric' });
+    document.getElementById('monthTitle').textContent = title.charAt(0).toUpperCase() + title.slice(1);
+
+    const cal = document.getElementById('calendar');
+    cal.innerHTML = '';
+
+    const headers = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+    headers.forEach((h, i) => {
+      const div = document.createElement('div');
+      div.className = 'cal-header' + (i === 6 ? ' sun' : '');
+      div.textContent = h;
+      cal.appendChild(div);
+    });
+
+    const firstDay = new Date(year, month, 1);
+    const jsDay = firstDay.getDay();
+    const startOffset = (jsDay + 6) % 7;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const totalCells = startOffset + daysInMonth;
+    const dayRows = Math.ceil(totalCells / 7);
+    cal.style.gridTemplateRows = `auto repeat(${dayRows}, 1fr)`;
+
+    for (let i = 0; i < startOffset; i++) {
+      const div = document.createElement('div');
+      div.className = 'cal-day empty';
+      cal.appendChild(div);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(year, month, d);
+      const div = document.createElement('div');
+      div.className = 'cal-day';
+      if (date.getDay() === 0) div.classList.add('sunday-col');
+
+      const num = document.createElement('span');
+      num.className = 'num';
+      num.textContent = d;
+      div.appendChild(num);
+
+      const nOwner = nightOwner(date);
+      const sOwner = sundayOwner(date);
+
+      if (nOwner) div.style.background = PEOPLE[nOwner].light;
+
+      if (nOwner) {
+        const p = PEOPLE[nOwner];
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.style.background = p.color;
+        tag.textContent = '🌙 ' + nOwner;
+        div.appendChild(tag);
+        div.title = 'Tăng ca đêm — ' + nOwner;
+      } else if (sOwner) {
+        const p = PEOPLE[sOwner];
+        div.style.background = p.light;
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.style.background = p.color;
+        tag.textContent = '☀️ ' + sOwner;
+        div.appendChild(tag);
+        div.title = 'Trực Chủ Nhật — ' + sOwner;
+      }
+
+      cal.appendChild(div);
+    }
+  }
+
+  function renderInfo() {
+    const box = document.getElementById('infoBox');
+    const nightDate = BASE_NIGHT.toLocaleDateString('vi-VN');
+    const sundayDate = BASE_SUNDAY.toLocaleDateString('vi-VN');
+
+    box.innerHTML = `
+      <strong>Quy tắc:</strong>
+      <span class="order-line">• 🌙 Tăng ca đêm (T2–T7): ${NIGHT_ORDER.join(' → ')}</span>
+      <span class="order-line">• ☀️ Trực CN: ${SUNDAY_ORDER.join(' → ')}</span>
+      <span class="order-line">📌 Lịch gốc (Bình): Đêm ${nightDate} • Trực CN ${sundayDate}</span>
+    `;
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    renderColorLegend();
+    renderCalendar();
+    renderInfo();
+  });
+</script>
+</body>
+</html>
