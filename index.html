@@ -19,7 +19,7 @@
     font-family: 'Work Sans', 'Segoe UI', Tahoma, sans-serif;
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     color: #333;
-    font-size: clamp(13px, 1.05vw, 18px);
+    font-size: clamp(14px, 1.05vw, 18px);
     line-height: 1.4;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,7 @@
   h1 {
     color: #fff;
     text-align: center;
-    font-size: clamp(1.1rem, 2vw, 2rem);
+    font-size: clamp(1.15rem, 2vw, 2rem);
     font-weight: 800;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     letter-spacing: -0.5px;
@@ -75,13 +75,13 @@
     display: flex; align-items: center; gap: 6px;
     padding: clamp(3px, 0.6vh, 8px) clamp(8px, 1.1vw, 16px);
     border-radius: 22px;
-    font-size: clamp(0.72rem, 0.95vw, 1.05rem);
+    font-size: clamp(0.78rem, 0.95vw, 1.05rem);
     font-weight: 600;
     background: #fff; border: 1px solid #e0e0e0;
   }
   .person-legend .swatch {
-    width: clamp(11px, 1.1vw, 20px);
-    height: clamp(11px, 1.1vw, 20px);
+    width: clamp(12px, 1.1vw, 20px);
+    height: clamp(12px, 1.1vw, 20px);
     border-radius: 4px;
     flex-shrink: 0;
   }
@@ -90,7 +90,7 @@
     display: flex;
     gap: clamp(10px, 1.6vw, 20px);
     flex-wrap: wrap;
-    font-size: clamp(0.72rem, 0.9vw, 1rem);
+    font-size: clamp(0.78rem, 0.9vw, 1rem);
     color: #666;
     font-weight: 500;
     flex-shrink: 0;
@@ -99,10 +99,10 @@
   .type-legend span { display: flex; align-items: center; gap: 5px; }
   .type-icon {
     display: inline-flex; align-items: center; justify-content: center;
-    width: clamp(15px, 1.4vw, 24px);
-    height: clamp(15px, 1.4vw, 24px);
+    width: clamp(17px, 1.4vw, 24px);
+    height: clamp(17px, 1.4vw, 24px);
     border-radius: 4px;
-    font-size: clamp(0.6rem, 0.8vw, 0.9rem);
+    font-size: clamp(0.65rem, 0.8vw, 0.9rem);
   }
   .type-icon.night { background: #e8f8f5; }
   .type-icon.sunday { background: #fdf0ec; }
@@ -117,14 +117,14 @@
     background: #f0f0f0; border: none;
     padding: clamp(4px, 0.7vh, 9px) clamp(10px, 1.4vw, 20px);
     border-radius: 8px; cursor: pointer;
-    font-size: clamp(0.8rem, 1.05vw, 1.2rem);
+    font-size: clamp(0.9rem, 1.05vw, 1.2rem);
     font-weight: 700; color: #2a5298;
     transition: background 0.2s;
     font-family: inherit;
   }
   .month-nav button:hover { background: #e0e0e0; }
   .month-nav .month-title {
-    font-size: clamp(0.95rem, 1.35vw, 1.5rem);
+    font-size: clamp(1rem, 1.35vw, 1.5rem);
     font-weight: 700; color: #1e3c72;
   }
 
@@ -140,7 +140,7 @@
   .cal-header {
     text-align: center; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
-    font-size: clamp(0.7rem, 0.95vw, 1.05rem);
+    font-size: clamp(0.8rem, 0.95vw, 1.05rem);
     color: #666;
     min-height: 0;
   }
@@ -150,7 +150,7 @@
     align-items: center; justify-content: center;
     border-radius: clamp(5px, 0.7vw, 10px);
     background: #f7f8fa;
-    font-size: clamp(0.8rem, 1.1vw, 1.2rem);
+    font-size: clamp(0.95rem, 1.1vw, 1.2rem);
     position: relative;
     cursor: default;
     padding: 2px;
@@ -161,7 +161,7 @@
   .cal-day.sunday-col { background: #fdf0ec; }
   .cal-day .num { font-weight: 600; line-height: 1; }
   .cal-day .tag {
-    font-size: clamp(0.42rem, 0.62vw, 0.72rem);
+    font-size: clamp(0.55rem, 0.62vw, 0.72rem);
     font-weight: 700;
     margin-top: clamp(1px, 0.3vh, 4px);
     padding: 1px clamp(3px, 0.4vw, 6px);
@@ -177,18 +177,146 @@
     padding: clamp(6px, 1vh, 16px) clamp(8px, 1.2vw, 18px);
     background: #e8f4fd;
     border-radius: clamp(6px, 0.9vw, 12px);
-    font-size: clamp(0.68rem, 0.85vw, 0.95rem);
+    font-size: clamp(0.75rem, 0.85vw, 0.95rem);
     color: #1e3c72;
     line-height: 1.6;
   }
   .info-box strong { color: #d84315; }
   .info-box .order-line { display: block; }
 
-  /* Màn hình thấp: ẩn bớt chú thích loại ca cho gọn */
+  /* ==================================================== */
+  /* =============== MOBILE (≤ 768px) =================== */
+  /* ==================================================== */
+  @media (max-width: 768px) {
+    body {
+      font-size: 17px;           /* nền tảng lớn hơn */
+      padding: 10px 10px;
+    }
+    h1 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+    }
+    .card {
+      padding: 12px 12px;
+      border-radius: 12px;
+    }
+
+    /* Legend người */
+    .color-legend {
+      gap: 6px;
+      padding: 8px;
+      margin-bottom: 8px;
+    }
+    .person-legend {
+      font-size: 0.95rem;        /* to hơn hẳn */
+      padding: 5px 12px;
+      gap: 7px;
+    }
+    .person-legend .swatch {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Chú thích loại ca */
+    .type-legend {
+      font-size: 0.92rem;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .type-icon {
+      width: 22px;
+      height: 22px;
+      font-size: 0.85rem;
+    }
+
+    /* Thanh chuyển tháng */
+    .month-nav button {
+      font-size: 1.1rem;
+      padding: 8px 16px;
+    }
+    .month-nav .month-title {
+      font-size: 1.15rem;
+    }
+
+    /* Lịch */
+    .calendar {
+      gap: 3px;
+    }
+    .cal-header {
+      font-size: 0.95rem;
+      padding: 4px 0;
+    }
+    .cal-day {
+      font-size: 1.15rem;        /* số ngày to */
+      border-radius: 7px;
+    }
+    .cal-day .tag {
+      font-size: 0.62rem;        /* tên người trên tag đủ đọc */
+      padding: 1px 4px;
+      margin-top: 2px;
+    }
+
+    /* Info box */
+    .info-box {
+      font-size: 0.9rem;
+      padding: 10px 12px;
+      line-height: 1.7;
+    }
+  }
+
+  /* ==================================================== */
+  /* ============ MOBILE NHỎ (≤ 420px) ================== */
+  /* ==================================================== */
+  @media (max-width: 420px) {
+    body {
+      font-size: 18px;
+      padding: 8px 8px;
+    }
+    h1 {
+      font-size: 1.25rem;
+    }
+    .card {
+      padding: 10px;
+    }
+    .person-legend {
+      font-size: 0.9rem;
+      padding: 4px 10px;
+    }
+    .person-legend .swatch {
+      width: 15px;
+      height: 15px;
+    }
+    .type-legend {
+      font-size: 0.88rem;
+    }
+    .month-nav button {
+      font-size: 1rem;
+      padding: 7px 14px;
+    }
+    .month-nav .month-title {
+      font-size: 1.05rem;
+    }
+    .cal-header {
+      font-size: 0.9rem;
+    }
+    .cal-day {
+      font-size: 1.1rem;
+    }
+    .cal-day .tag {
+      font-size: 0.58rem;
+      padding: 1px 3px;
+    }
+    .info-box {
+      font-size: 0.86rem;
+      padding: 9px 11px;
+    }
+  }
+
+  /* Màn hình thấp (mobile landscape hoặc desktop nhỏ) */
   @media (max-height: 640px) {
     .type-legend { display: none; }
     .color-legend { margin-bottom: 6px; }
-    .info-box { font-size: 0.62rem; }
+    .info-box { font-size: 0.78rem; }
   }
   @media (max-height: 480px) {
     h1 { display: none; }
@@ -226,28 +354,20 @@
 
 <script>
   // ============ CẤU HÌNH ============
-  const CYCLE_NIGHT = 4;      // ngày làm việc (T2–T7)
-  const CYCLE_SUNDAY = 28;    // ngày (4 tuần)
+  const CYCLE_NIGHT = 4;
+  const CYCLE_SUNDAY = 28;
 
-  // Thông tin 4 người — mỗi người 1 màu (dùng chung cho cả 2 lịch)
   const PEOPLE = {
-    'Bình': { color: '#00b894', light: '#e8f8f5' }, // xanh ngọc
-    'Minh': { color: '#0984e3', light: '#e7f2fd' }, // xanh dương
-    'Điệp': { color: '#6c5ce7', light: '#efedfd' }, // tím
-    'Thư':  { color: '#e84393', light: '#fdeaf5' }, // hồng
+    'Bình': { color: '#00b894', light: '#e8f8f5' },
+    'Minh': { color: '#0984e3', light: '#e7f2fd' },
+    'Điệp': { color: '#6c5ce7', light: '#efedfd' },
+    'Thư':  { color: '#e84393', light: '#fdeaf5' },
   };
   const PERSON_LIST = ['Bình', 'Minh', 'Điệp', 'Thư'];
 
-  // ===== THỨ TỰ THAY PHIÊN =====
-  // Trực CN: Bình → Minh → Điệp → Thư
   const SUNDAY_ORDER = ['Bình', 'Minh', 'Điệp', 'Thư'];
-
-  // Tăng ca đêm (T2–T7): Bình → Minh → Thư → Điệp
   const NIGHT_ORDER = ['Bình', 'Minh', 'Thư', 'Điệp'];
 
-  // ===== LỊCH GỐC =====
-  // Đêm gốc: 14/11/2026 (Thứ 7) — Bình
-  // Trực CN gốc: 15/11/2026 (Chủ Nhật) — Bình
   const BASE_NIGHT = new Date(2026, 10, 14);
   const BASE_SUNDAY = new Date(2026, 10, 15);
 
