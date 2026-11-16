@@ -293,7 +293,7 @@
 </div>
 
 <script>
-  const CYCLE_NIGHT = 4;
+  // ============ CẤU HÌNH ============
   const CYCLE_SUNDAY = 28;
 
   const PEOPLE = {
@@ -304,53 +304,42 @@
   };
   const PERSON_LIST = ['Bình', 'Minh', 'Điệp', 'Thư'];
 
+  // ===== LỊCH TRỰC CN (XOAY VÒNG) =====
   const SUNDAY_ORDER = ['Bình', 'Minh', 'Điệp', 'Thư'];
-  const NIGHT_ORDER = ['Bình', 'Minh', 'Thư', 'Điệp'];
+  const BASE_SUNDAY = new Date(2026, 10, 15); // 15/11/2026 - Bình
 
-  const BASE_NIGHT = new Date(2026, 10, 14);
-  const BASE_SUNDAY = new Date(2026, 10, 15);
+  // ===== LỊCH TĂNG CA ĐÊM (CỐ ĐỊNH THEO THỨ) =====
+  // getDay(): 1=T2, 2=T3, 3=T4, 4=T5, 5=T6, 6=T7, 0=CN
+  const NIGHT_SCHEDULE = {
+    1: 'Minh',  // T2
+    2: 'Thư',   // T3
+    3: 'Điệp',  // T4
+    4: 'Bình',  // T5
+    5: 'Minh',  // T6
+    6: 'Bình',  // T7
+    // 0: null  // CN nghỉ
+  };
 
-  // Mặc định mở đúng tháng hiện tại của máy
+  // Mặc định mở đúng tháng hiện tại
   let currentMonth = new Date();
   currentMonth.setDate(1); 
   currentMonth.setHours(0, 0, 0, 0);
 
-  function addDays(d, n) {
-    const r = new Date(d);
-    r.setDate(r.getDate() + n);
-    return r;
-  }
   function daysBetween(a, b) {
     return Math.round((b - a) / 86400000);
   }
 
-  function workingDaysBetween(start, end) {
-    if (end <= start) return 0;
-    let count = 0;
-    let cur = new Date(start);
-    cur.setHours(0, 0, 0, 0);
-    const endD = new Date(end);
-    endD.setHours(0, 0, 0, 0);
-    while (cur < endD) {
-      cur = addDays(cur, 1);
-      if (cur.getDay() !== 0) count++;
-    }
-    return count;
-  }
-
+  // ============ LẤY TÊN NGƯỜI TRỰC ============
   function nightOwner(date) {
-    if (date.getDay() === 0) return null;
-    const d = new Date(date); d.setHours(0,0,0,0);
-    const b = new Date(BASE_NIGHT); b.setHours(0,0,0,0);
-    if (d < b) return null;
-    return NIGHT_ORDER[workingDaysBetween(b, d) % 4];
+    const dayOfWeek = date.getDay();
+    return NIGHT_SCHEDULE[dayOfWeek] || null;
   }
 
   function sundayOwner(date) {
     if (date.getDay() !== 0) return null;
     const d = new Date(date); d.setHours(0,0,0,0);
     const b = new Date(BASE_SUNDAY); b.setHours(0,0,0,0);
-    if (d < b) return null;
+    if (d < b) return null; // Trước ngày gốc thì chưa có lịch
     const weeks = daysBetween(b, d) / 7;
     return SUNDAY_ORDER[Math.round(weeks) % 4];
   }
@@ -433,6 +422,7 @@
       const nOwner = nightOwner(date);
       const sOwner = sundayOwner(date);
 
+      // Ưu tiên hiển thị nền theo ca đêm, nếu không có ca đêm (như CN) thì hiện nền theo ca CN
       if (nOwner) div.style.background = PEOPLE[nOwner].light;
 
       if (nOwner) {
@@ -460,14 +450,13 @@
 
   function renderInfo() {
     const box = document.getElementById('infoBox');
-    const nightDate = BASE_NIGHT.toLocaleDateString('vi-VN');
     const sundayDate = BASE_SUNDAY.toLocaleDateString('vi-VN');
 
     box.innerHTML = `
       <strong>Quy tắc:</strong>
-      <span class="order-line">• 🌙 Tăng ca đêm (T2–T7): ${NIGHT_ORDER.join(' → ')}</span>
-      <span class="order-line">• ☀️ Trực CN: ${SUNDAY_ORDER.join(' → ')}</span>
-      <span class="order-line">📌 Lịch gốc (Bình): Đêm ${nightDate} • Trực CN ${sundayDate}</span>
+      <span class="order-line">• 🌙 <strong>Tăng ca đêm (T2–T7):</strong> T2: Minh • T3: Thư • T4: Điệp • T5: Bình • T6: Minh • T7: Bình</span>
+      <span class="order-line">• ☀️ <strong>Trực CN:</strong> ${SUNDAY_ORDER.join(' → ')} (xoay vòng 4 tuần)</span>
+      <span class="order-line">📌 Lịch gốc Trực CN (Bình): ${sundayDate}</span>
     `;
   }
 
